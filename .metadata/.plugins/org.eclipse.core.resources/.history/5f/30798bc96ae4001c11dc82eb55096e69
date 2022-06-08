@@ -1,0 +1,14 @@
+package service;
+
+import java.util.List;
+
+import exceptions.ApplicationException;
+import pojo.ReimbursementPojo;
+
+public interface ReimbService {
+
+	List<ReimbursementPojo> viewAllRequests() throws ApplicationException;
+	
+	ReimbursementPojo submitRequest(ReimbursementPojo reimbursementPojo) throws ApplicationException;
+	
+}

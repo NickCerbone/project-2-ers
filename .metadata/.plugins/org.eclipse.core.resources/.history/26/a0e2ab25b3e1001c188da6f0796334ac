@@ -1,0 +1,29 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import exception.ApplicationException;
+import model.StatusPojo;
+
+public class StatusDaoImpl implements StatusDao {
+
+	@Override
+	public StatusPojo manUpdateRequest(StatusPojo statusPojo) throws ApplicationException {
+			try {
+				Connection conn = DBUtil.dbConnection();
+				Statement stmt = conn.createStatement();
+				String query = "update status set status='"+statusPojo.getStatus()+"' returning status_id";
+				ResultSet rs = stmt.executeQuery(query);
+				rs.next();
+				statusPojo.setStatus_Id(rs.getInt(1));
+			} catch (SQLException e) {
+				throw new ApplicationException(e.getMessage());
+			}
+			
+			return statusPojo;
+	}
+
+}

@@ -1,0 +1,24 @@
+import java.util.List;
+
+import io.javalin.Javalin;
+import pojo.ReimbursementPojo;
+import service.ReimbService;
+import service.ReimbServiceImpl;
+
+
+public class ReimbCrud {
+
+	public static void main(String[] args) {
+		
+		ReimbService reimbService = new ReimbServiceImpl();
+		
+		Javalin server = Javalin.create();
+		server.start(7474);
+		
+		server.get("/reimbursement", (ctx)->{
+			List<ReimbursementPojo> allRequests = reimbService.viewAllRequests();
+			ctx.json(allRequests);
+		});
+	}
+
+}

@@ -1,0 +1,82 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import exceptions.ApplicationException;
+import pojo.ReimbursementPojo;
+
+public class ReimbursementDaoImpl implements ReimbursementDao {
+
+	@Override
+	public ReimbursementPojo submitRequest(ReimbursementPojo reimbursementPojo) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewAllRequestsByRequester(int requesterId) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewPendingRequestsByRequester(int requesterId) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewResolvedRequestsByRequester(int requesterId) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewAllRequests() throws ApplicationException {
+		List<ReimbursementPojo> allRequests = new ArrayList<ReimbursementPojo>();
+		Statement stmt;
+		try {
+			Connection conn = DBUtil.makeConnection();
+			stmt = conn.createStatement();
+			String query = "select * from Reimbursements";
+			ResultSet rs = stmt.executeQuery(query);
+
+			while (rs.next()) {
+				// here as we iterate through the rs we should
+				// each record in a pojo object and
+				// add it to the collection
+				// and at the end we return the collection
+
+				// as we iterate we are taking each record and storing it in a bookPojo object
+				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getDouble(2), rs.getInt(4), rs.getInt(3),
+						rs.getInt(5));
+
+				// add the bookPojo obj to a collection
+				allRequests.add(reimbursementPojo);
+
+			}
+		} catch (SQLException e) {
+			throw new ApplicationException(e.getMessage());
+		}
+	
+		return allRequests;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewAllPendingRequests() throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewAllResolvedRequests() throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

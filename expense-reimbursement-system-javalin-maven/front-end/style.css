@@ -1,0 +1,73 @@
+body {
+  background-image: url('expense-reimbursement-pic.jpg'); 
+  background-size:cover;
+}
+
+.loginbox{
+  width:500px;
+  padding: 25px;
+  height: 575px;
+  background: rgba(0, 0, 0, 0.737);
+  color: white;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  padding: 100px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 10%;
+}
+
+.img-fluid{
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 10px;
+  left: 205px;
+  border-radius: 20%;
+}
+
+.loginbox h1{
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+.loginbox p{
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.loginbox input{
+  height: 50px;
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border: none;
+  font-size: 20px;
+  font-style: italic;
+  background-color: rgba(211, 211, 211, 0.69);
+}
+
+.loginbox button{
+  margin-top: 20px;
+  border-radius: 10px;
+  border-color: rgb(189, 185, 185);
+  background-color: rgba(33, 150, 192, 0.832);
+  height: 50px;
+  font-size: 18px;
+  font-weight: bolder;
+  color: white;
+  width: 101%;
+}
+
+a:link{
+  color: white;
+}
+a:visited{
+  color:rgba(33, 160, 192, 0.832);
+}

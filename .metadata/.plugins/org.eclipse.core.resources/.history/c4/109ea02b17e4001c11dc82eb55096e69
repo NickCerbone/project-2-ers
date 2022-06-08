@@ -1,0 +1,57 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import exceptions.ApplicationException;
+import pojo.ReimbursementPojo;
+
+public class ReimbursementDaoImpl implements ReimbursementDao {
+
+	@Override
+	public ReimbursementPojo submitRequest(ReimbursementPojo reimbursementPojo) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewAllRequestsByRequester(int requesterId) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewPendingRequestsByRequester(int requesterId) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewResolvedRequestsByRequester(int requesterId) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewAllRequests() throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewAllPendingRequests() throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewAllResolvedRequests() throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

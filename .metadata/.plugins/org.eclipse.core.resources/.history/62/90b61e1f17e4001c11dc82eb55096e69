@@ -1,0 +1,91 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import exceptions.ApplicationException;
+import pojo.ReimbursementPojo;
+
+public class ReimbursementDaoImpl implements ReimbursementDao {
+
+	@Override
+	public ReimbursementPojo submitRequest(ReimbursementPojo reimbursementPojo) throws ApplicationException {
+		
+		try {
+			Connection conn = DBUtil.makeConnection();
+			Statement stmt = conn.createStatement();
+			String query = "insert into reimbursements(reimb_amt, requester_id)" 
+					+ "values('"+reimbursementPojo.getReimbAmt()+"','"+reimbursementPojo.getRequesterId()+"') returning reimb_id";
+			ResultSet rs = stmt.executeQuery(query);
+			rs.next();
+			reimbursementPojo.setReimbId(rs.getInt(1));
+		} catch (SQLException e) {
+			throw new ApplicationException(e.getMessage());
+		}
+		
+		return reimbursementPojo;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewAllRequestsByRequester(int requesterId) throws ApplicationException {
+		
+		List<ReimbursementPojo> allRequesterRequests = new ArrayList<ReimbursementPojo>();
+
+		Statement stmt;
+		try {
+			Connection conn = DBUtil.makeConnection();
+			stmt = conn.createStatement();
+			String query = "SELECT reimbursements.reimb_id, reimbursements.reimb_amt, status.status FROM reimbursements INNER JOIN status ON reimbursements.reimb_status_id=status.status_id";
+			ResultSet rs = stmt.executeQuery(query);
+
+			while (rs.next()) {
+				
+				BookPojo bookPojo = new BookPojo(rs.getInt(1), rs.getString(2), rs.getString(4), rs.getString(3),
+						rs.getInt(5), rs.getString(6));
+
+				
+				allBooksStore.add(bookPojo);
+
+			}
+		} catch (SQLException e) {
+			throw new ApplicationException(e.getMessage());
+		}
+	
+		return allBooksStore;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewPendingRequestsByRequester(int requesterId) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewResolvedRequestsByRequester(int requesterId) throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewAllRequests() throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewAllPendingRequests() throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReimbursementPojo> viewAllResolvedRequests() throws ApplicationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

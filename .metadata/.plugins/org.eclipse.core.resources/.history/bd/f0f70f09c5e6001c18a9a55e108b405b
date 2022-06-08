@@ -1,0 +1,5 @@
+#DB Properties
+ db.driver="org.postgresql.Driver"
+ db.url=jdbc:project0db.cqkinw2iis2h.us-east-1.rds.amazonaws.com:5432/ers
+ db.username=postgres
+ db.password=Pcqy?262

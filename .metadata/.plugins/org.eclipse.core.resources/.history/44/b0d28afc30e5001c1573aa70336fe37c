@@ -1,0 +1,48 @@
+import java.util.List;
+
+import io.javalin.Javalin;
+import pojo.ReimbursementPojo;
+import service.ReimbService;
+import service.ReimbServiceImpl;
+
+
+public class ReimbCrud {
+
+	public static void main(String[] args) {
+
+		ReimbService reimbService = new ReimbServiceImpl();
+
+		Javalin server = Javalin.create((config) -> config.enableCorsForAllOrigins());
+		server.start(7474);
+		
+		// endpoint view all requests
+		server.get("/reimbursement", (ctx) -> {
+			List<ReimbursementPojo> allRequests = reimbService.viewAllRequests();
+			ctx.json(allRequests);
+		});
+
+		// endpoint submit a request
+		server.post("/reimbursement", (ctx) -> {
+			// take out the incoming json data from the request body and put/copy it into a
+			// BookPojo
+			// it is important to make sure that the incoming json 's properties matches the
+			// book pojo properties for the copying to be successful
+			ReimbursementPojo newReimbursementPojo = ctx.bodyAsClass(ReimbursementPojo.class);
+
+			// next send the bookPojo object to the service and then to dao to insert into
+			// the database
+			ReimbursementPojo returnReimbursementPojo = reimbService.submitRequest(newReimbursementPojo);
+
+			// this returns a bookpojo which has the new book id, send this back in the
+			// response body in json format
+			ctx.json(returnReimbursementPojo);
+		});
+		
+		server.get("/reimbursement/{requesterId}", (ctx) -> {
+			List<ReimbursementPojo> allRequestsByRequester = reimbService.viewAllRequestsByRequester(Integer.parseInt(ctx.pathParam("requesterId")));
+			
+			ctx.json(allRequestsByRequester);
+		});
+	}
+
+}

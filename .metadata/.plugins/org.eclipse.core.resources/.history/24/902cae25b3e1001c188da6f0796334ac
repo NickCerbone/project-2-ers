@@ -1,0 +1,10 @@
+package dao;
+
+import exception.ApplicationException;
+import model.StatusPojo;
+
+public interface StatusDao {
+	
+	StatusPojo manUpdateRequest(StatusPojo statusPojo) throws ApplicationException;
+
+}
