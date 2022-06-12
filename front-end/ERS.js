@@ -1,33 +1,43 @@
 function getEmployee(username, password) {
-    fetch("http://localhost:7474/employees/"+username+"/"+password, {method: 'get'})
-            .then(response => response.json())
-            .then(responseJson => {
-            if (responseJson.empUserName == username && responseJson.empRole == "employee") {
+    let employeeLogin = {
+        empUserName: username,
+        empHashedPassword: password
+    }
+
+    fetch("http://localhost:7474/employees",
+        {
+            method: 'post',
+            body: JSON.stringify(employeeLogin)
+        })
+        .then(response => response.json())
+        .then(responseJson => {
+
+            if (responseJson.empUserName == username && responseJson.rolesPojo.role == "employee") {
                 sessionStorage.setItem("currEmpId", responseJson.empId)
                 window.location.replace("EmployeeHomePage.html")
-            } else if (responseJson.empUserName == username && responseJson.empRole == "manager") {
+
+            } else if (responseJson.empUserName == username && responseJson.rolesPojo.role == "manager") {
                 sessionStorage.setItem("currManId", responseJson.empId)
-            window.location.replace("ManagerHomePage.html")
+                window.location.replace("ManagerHomePage.html")
             }
         })
-            .catch(
-                (error => document.getElementById("invalid login message").innerHTML = `invalid login credentials`)
-            )
-            
-} 
-
-function empLogOut() {
-sessionStorage.setItem("currEmpId", null)
-window.location.replace("LoginPage.html")
+        .catch(
+            (error => document.getElementById("invalid login message").innerHTML = `invalid login credentials`)
+        )
 }
 
-function manLogout(){
-sessionStorage.setItem("currManId", null)
-window.location.replace("LoginPage.html")
+function empLogOut() {
+    sessionStorage.setItem("currEmpId", null)
+    window.location.replace("LoginPage.html")
+}
+
+function manLogout() {
+    sessionStorage.setItem("currManId", null)
+    window.location.replace("LoginPage.html")
 }
 
 function getAllRequests() {
-    
+
     console.log("data printed on console");
 
     fetch("http://localhost:7474/reimbursement")
@@ -50,14 +60,14 @@ function getAllRequests() {
                             <tbody>`;
             for (let request of responseJson) {
                 allRequestData += `<tr>
-                                    <td>${request.requesterId}</td>
-                                    <td>${request.requesterFirstName}</td>
-                                    <td>${request.requesterLastName}</td>
+                                    <td>${request.requester.empId}</td>
+                                    <td>${request.requester.empFirstName}</td>
+                                    <td>${request.requester.empLastName}</td>
                                     <td>${request.reimbId}</td>
                                     <td>${request.reimbAmt}</td>
-                                    <td>${request.reimbStatus}</td>
-                                    <td>${request.approverFirstName}</td>
-                                    <td>${request.approverLastName}</td>
+                                    <td>${request.statusPojo.status}</td>
+                                    <td>${request.approver.empFirstName}</td>
+                                    <td>${request.approver.empLastName}</td>
                                   </tr>`;
             }
             allRequestData += `</tbody></table>`;
@@ -85,21 +95,27 @@ function displaySubmitRequestForm() {
 
 function submitRequest() {
 
+    console.log(sessionStorage.getItem("currEmpId"))
     let newRequest = {
         reimbAmt: document.getElementById("reqAmt").value,
-        requesterId: sessionStorage.getItem("currEmpId")
+        statusPojo: {
+            statusId: 1,
+        },
+        requester: {
+            empId: sessionStorage.getItem("currEmpId")
+        }
     }
 
     fetch("http://localhost:7474/reimbursement", {
-    method: 'post',
-    body: JSON.stringify(newRequest)
+        method: 'post',
+        body: JSON.stringify(newRequest)
     })
-    .then(response => displayPendingByEmpId())
+        .then(response => displayPendingByEmpId())
 }
 
 function displayAllRequestsByEmployee(empId) {
     console.log(empId);
-    fetch("http://localhost:7474/reimbursement/"+empId)
+    fetch("http://localhost:7474/reimbursement/" + empId)
         .then(response => response.json())
         .then(responseJson => {
             console.log(responseJson)
@@ -118,13 +134,13 @@ function displayAllRequestsByEmployee(empId) {
                             <tbody>`;
             for (let requestsByEmployeeData of responseJson) {
                 allRequestsByEmployeeData += `<tr>
-                                    <td>${requestsByEmployeeData.requesterFirstName}</td>
-                                    <td>${requestsByEmployeeData.requesterLastName}</td>
+                                    <td>${requestsByEmployeeData.requester.empFirstName}</td>
+                                    <td>${requestsByEmployeeData.requester.empLastName}</td>
                                     <td>${requestsByEmployeeData.reimbId}</td>
                                     <td>${requestsByEmployeeData.reimbAmt}</td>
-                                    <td>${requestsByEmployeeData.reimbStatus}</td>
-                                    <td>${requestsByEmployeeData.approverFirstName}</td>
-                                    <td>${requestsByEmployeeData.approverLastName}</td>
+                                    <td>${requestsByEmployeeData.statusPojo.status}</td>
+                                    <td>${requestsByEmployeeData.approver.empFirstName}</td>
+                                    <td>${requestsByEmployeeData.approver.empLastName}</td>
                                   </tr>`;
             }
             allRequestsByEmployeeData += `</tbody></table>`;
@@ -133,41 +149,45 @@ function displayAllRequestsByEmployee(empId) {
         .catch(error => console.log(error));
 }
 
-function approveRequest(reimbId){
+function approveRequest(reimbId) {
     let newApproveRequest = {
-        reimbId: 0,
-        reimbAmt: 0,
-        reimbStatusId: 2,
-        requesterId: 0,
-        approverId: sessionStorage.getItem("currManId"),
+        reimbId: reimbId,
+        statusPojo: {
+            statusId: 2,
+        },
+        approver: {
+            empId: sessionStorage.getItem("currManId")
+        }
     }
 
-    fetch("http://localhost:7474/updateRequest/"+reimbId, {
+    fetch("http://localhost:7474/updateRequest", {
         method: 'put',
         body: JSON.stringify(newApproveRequest)
     })
-    .then(response => displayAllPending())
- }
+        .then(response => displayAllPending())
+}
 
- function rejectRequest(reimbId){
+function rejectRequest(reimbId) {
     let newRejectRequest = {
-        reimbId: 0,
-        reimbAmt: 0,
-        reimbStatusId: 3,
-        requesterId: 0,
-        approverId: sessionStorage.getItem("currManId"),
+        reimbId: reimbId,
+        statusPojo: {
+            statusId: 3,
+        },
+        approver: {
+            empId: sessionStorage.getItem("currManId")
+        }
     }
 
-    fetch("http://localhost:7474/updateRequest/"+reimbId, {
+    fetch("http://localhost:7474/updateRequest/" + reimbId, {
         method: 'put',
         body: JSON.stringify(newRejectRequest)
     })
-    .then(response =>displayAllPending())
- }
+        .then(response => displayAllPending())
+}
 
 function displayAccountInformation() {
     console.log(sessionStorage.getItem("currEmpId"));
-    fetch("http://localhost:7474/employees/"+sessionStorage.getItem("currEmpId"))
+    fetch("http://localhost:7474/employees/" + sessionStorage.getItem("currEmpId"))
         .then(response => response.json())
         .then(responseJson => {
             console.log(responseJson)
@@ -179,10 +199,10 @@ function displayAccountInformation() {
                                                     <li class="list-group-item">Last Name: ${responseJson.empLastName}</li>
                                                     <li class="list-group-item">Username: ${responseJson.empUserName}</li>
                                                     <li class="list-group-item">Password: ${responseJson.empHashedPassword}</li>
-                                                    <li class="list-group-item">Role: ${responseJson.empRole}</li>
+                                                    <li class="list-group-item">Role: ${responseJson.rolesPojo.role}</li>
                                                 </ul>
                                         </div>`
-        
+
             document.getElementById("content").innerHTML = allAccountInformation;
         })
 
@@ -224,22 +244,20 @@ function updateEmpInfo() {
         empLastName: document.getElementById("lname").value,
         empUserName: document.getElementById("uname").value,
         empHashedPassword: document.getElementById("pword").value,
-        empRoleId: 0,
-        empRole: ""
     }
 
-    
 
-fetch("http://localhost:7474/reimbursement/"+sessionStorage.getItem("currEmpId") , {
-    method: 'put',
-    body: JSON.stringify(newEmpInfo)
-})
-.then(response => empLogOut())
+
+    fetch("http://localhost:7474/reimbursement/" + sessionStorage.getItem("currEmpId"), {
+        method: 'put',
+        body: JSON.stringify(newEmpInfo)
+    })
+        .then(response => empLogOut())
 }
 
 function displayPendingByEmpId() {
 
-    fetch("http://localhost:7474/pending/"+sessionStorage.getItem("currEmpId"))
+    fetch("http://localhost:7474/pending/" + sessionStorage.getItem("currEmpId"))
         .then(response => response.json())
         .then(responseJson => {
             console.log(responseJson)
@@ -257,12 +275,12 @@ function displayPendingByEmpId() {
                             <tbody>`;
             for (let pending of responseJson) {
                 allPendingData += `<tr>
-                                    <td>${pending.requesterId}</td>
-                                    <td>${pending.requesterFirstName}</td>
-                                    <td>${pending.requesterLastName}</td>
+                                    <td>${pending.requester.empId}</td>
+                                    <td>${pending.requester.empFirstName}</td>
+                                    <td>${pending.requester.empLastName}</td>
                                     <td>${pending.reimbId}</td>
                                     <td>${pending.reimbAmt}</td>
-                                    <td>${pending.reimbStatus}</td>
+                                    <td>${pending.statusPojo.status}</td>
                                   </tr>`;
             }
             allPendingData += `</tbody></table>`;
@@ -275,7 +293,7 @@ function displayPendingByEmpId() {
 }
 
 function displayResolvedByEmpId() {
-    fetch("http://localhost:7474/resolved/"+sessionStorage.getItem("currEmpId"))
+    fetch("http://localhost:7474/resolved/" + sessionStorage.getItem("currEmpId"))
         .then(response => response.json())
         .then(responseJson => {
             console.log(responseJson)
@@ -295,14 +313,14 @@ function displayResolvedByEmpId() {
                             <tbody>`;
             for (let resolved of responseJson) {
                 allResolvedData += `<tr>
-                                    <td>${resolved.requesterId}</td>
-                                    <td>${resolved.requesterFirstName}</td>
-                                    <td>${resolved.requesterLastName}</td>
+                                    <td>${resolved.requester.empId}</td>
+                                    <td>${resolved.requester.empFirstName}</td>
+                                    <td>${resolved.requester.empLastName}</td>
                                     <td>${resolved.reimbId}</td>
                                     <td>${resolved.reimbAmt}</td>
-                                    <td>${resolved.reimbStatus}</td>
-                                    <td>${resolved.approverFirstName}</td>
-                                    <td>${resolved.approverLastName}</td>
+                                    <td>${resolved.statusPojo.status}</td>
+                                    <td>${resolved.approver.empFirstName}</td>
+                                    <td>${resolved.approver.empLastName}</td>
                                   </tr>`;
             }
             allResolvedData += `</tbody></table>`;
@@ -335,7 +353,7 @@ function displayAllEmployees() {
                                     <td>${employee.empId}</td>
                                     <td>${employee.empFirstName}</td>
                                     <td>${employee.empLastName}</td>
-                                    <td>${employee.empRole}</td>
+                                    <td>${employee.rolesPojo.role}</td>
                                     <td><button 
                                             type="button" 
                                             class="btn btn-info"
@@ -371,12 +389,12 @@ function displayAllPending() {
                             <tbody>`;
             for (let allPending of responseJson) {
                 allPendingData += `<tr>
-                                    <td>${allPending.requesterId}</td>
-                                    <td>${allPending.requesterFirstName}</td>
-                                    <td>${allPending.requesterLastName}</td>
+                                    <td>${allPending.requester.empId}</td>
+                                    <td>${allPending.requester.empFirstName}</td>
+                                    <td>${allPending.requester.empLastName}</td>
                                     <td>${allPending.reimbId}</td>
                                     <td>${allPending.reimbAmt}</td>
-                                    <td>${allPending.reimbStatus}</td>
+                                    <td>${allPending.statusPojo.status}</td>
                                     <td><button 
                                             type="button" 
                                             class="btn btn-primary"
@@ -418,14 +436,14 @@ function displayAllResolved() {
                             <tbody>`;
             for (let allResolved of responseJson) {
                 allResolvedData += `<tr>
-                                    <td>${allResolved.requesterId}</td>
-                                    <td>${allResolved.requesterFirstName}</td>
-                                    <td>${allResolved.requesterLastName}</td>
+                                    <td>${allResolved.requester.empId}</td>
+                                    <td>${allResolved.requester.empFirstName}</td>
+                                    <td>${allResolved.requester.empLastName}</td>
                                     <td>${allResolved.reimbId}</td>
                                     <td>${allResolved.reimbAmt}</td>
-                                    <td>${allResolved.reimbStatus}</td>
-                                    <td>${allResolved.approverFirstName}</td>
-                                    <td>${allResolved.approverLastName}</td>
+                                    <td>${allResolved.statusPojo.status}</td>
+                                    <td>${allResolved.approver.empFirstName}</td>
+                                    <td>${allResolved.approver.empLastName}</td>
                                   </tr>`;
             }
             allResolvedData += `</tbody></table>`;

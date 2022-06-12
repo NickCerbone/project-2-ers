@@ -17,6 +17,6 @@ public interface EmployeeDao {
 	List<EmployeePojo> manViewAll() throws ApplicationException;
 	
 	//Method for getting employee information
-	EmployeePojo getEmployee (String empUserName, String empHashedPassword) throws ApplicationException;
+	EmployeePojo getEmployee (EmployeePojo employeePojo) throws ApplicationException;
 	
 }
