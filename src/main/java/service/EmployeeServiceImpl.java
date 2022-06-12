@@ -1,22 +1,19 @@
 package service;
 
 import java.util.List;
-import java.util.logging.LogManager;
-
-import org.slf4j.Logger;
 
 import dao.EmployeeDao;
-import dao.EmployeeDaoImpl;
+import dao.EmployeeDaoHibernateImpl;
 import exceptions.ApplicationException;
 import pojo.EmployeePojo;
-import pojo.ReimbursementPojo;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
 	EmployeeDao employeeDao;
 
 	public EmployeeServiceImpl() {
-		this.employeeDao = new EmployeeDaoImpl();
+		// this.employeeDao = new EmployeeDaoImpl();
+		this.employeeDao = new EmployeeDaoHibernateImpl();
 	}
 
 	@Override
@@ -38,10 +35,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public EmployeePojo getEmployee(String empUsername, String empHashedPassword) throws ApplicationException {
-		EmployeePojo returnEmployeePojo = this.employeeDao.getEmployee(empUsername, empHashedPassword);
+	public EmployeePojo getEmployee(EmployeePojo employeePojo) throws ApplicationException {
+		EmployeePojo returnEmployeePojo = this.employeeDao.getEmployee(employeePojo);
 		return returnEmployeePojo;
 	}
-	
-	
+
 }

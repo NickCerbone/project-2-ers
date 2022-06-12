@@ -3,16 +3,17 @@ package service;
 import java.util.List;
 
 import dao.ReimbursementDao;
-import dao.ReimbursementDaoImpl;
+import dao.ReimbursementDaoHibernateImpl;
 import exceptions.ApplicationException;
 import pojo.ReimbursementPojo;
 
 public class ReimbServiceImpl implements ReimbService {
-	
+
 	ReimbursementDao reimbursementDao;
-	
+
 	public ReimbServiceImpl() {
-		this.reimbursementDao = new ReimbursementDaoImpl();
+		// this.reimbursementDao = new ReimbursementDaoImpl();
+		this.reimbursementDao = new ReimbursementDaoHibernateImpl();
 	}
 
 	@Override
@@ -26,22 +27,24 @@ public class ReimbServiceImpl implements ReimbService {
 		ReimbursementPojo returnReimbursementPojo = this.reimbursementDao.submitRequest(reimbursementPojo);
 		return returnReimbursementPojo;
 	}
-	
+
 	@Override
 	public List<ReimbursementPojo> viewAllRequestsByRequester(int requesterId) throws ApplicationException {
 		List<ReimbursementPojo> allRequestsByRequester = this.reimbursementDao.viewAllRequestsByRequester(requesterId);
 		return allRequestsByRequester;
 	}
-	
+
 	@Override
 	public List<ReimbursementPojo> viewPendingRequestsByRequester(int empid) throws ApplicationException {
-		List<ReimbursementPojo> allPendingRequestsByRequester = this.reimbursementDao.viewPendingRequestsByRequester(empid);
+		List<ReimbursementPojo> allPendingRequestsByRequester = this.reimbursementDao
+				.viewPendingRequestsByRequester(empid);
 		return allPendingRequestsByRequester;
 	}
-	
+
 	@Override
 	public List<ReimbursementPojo> viewResolvedRequestsByRequester(int empid) throws ApplicationException {
-		List<ReimbursementPojo> allResolvedRequestsByRequester = this.reimbursementDao.viewResolvedRequestsByRequester(empid);
+		List<ReimbursementPojo> allResolvedRequestsByRequester = this.reimbursementDao
+				.viewResolvedRequestsByRequester(empid);
 		return allResolvedRequestsByRequester;
 	}
 
@@ -58,8 +61,8 @@ public class ReimbServiceImpl implements ReimbService {
 	}
 
 	@Override
-	public ReimbursementPojo manUpdateRequest(ReimbursementPojo reimbursementPojo, int reimbId) throws ApplicationException {
-		ReimbursementPojo returnReimbursementPojo = this.reimbursementDao.manUpdateRequest(reimbursementPojo, reimbId);
+	public ReimbursementPojo manUpdateRequest(ReimbursementPojo reimbursementPojo) throws ApplicationException {
+		ReimbursementPojo returnReimbursementPojo = this.reimbursementDao.manUpdateRequest(reimbursementPojo);
 		return returnReimbursementPojo;
 	}
 }
