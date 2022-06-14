@@ -7,29 +7,29 @@ public class EmployeePojo {
 	private String empLastName;
 	private String empUserName;
 	private String empHashedPassword;
-	private RolesPojo rolesPojo;
+	private RolesPojo role;
 
 	public EmployeePojo() {
 	}
 
 	public EmployeePojo(int empId, String empFirstName, String empLastName, String empUserName,
-			String empHashedPassword, RolesPojo rolesPojo) {
+			String empHashedPassword, RolesPojo role) {
 		super();
 		this.empId = empId;
 		this.empFirstName = empFirstName;
 		this.empLastName = empLastName;
 		this.empUserName = empUserName;
 		this.empHashedPassword = empHashedPassword;
-		this.rolesPojo = rolesPojo;
+		this.role = role;
 	}
 
-	public EmployeePojo(int empId, String empFirstName, String empLastName, String empUserName, RolesPojo rolesPojo) {
+	public EmployeePojo(int empId, String empFirstName, String empLastName, String empUserName, RolesPojo role) {
 		super();
 		this.empId = empId;
 		this.empFirstName = empFirstName;
 		this.empLastName = empLastName;
 		this.empUserName = empUserName;
-		this.rolesPojo = rolesPojo;
+		this.role = role;
 	}
 
 	public EmployeePojo(int empId, String empFirstName, String empLastName, String empUserName,
@@ -42,12 +42,12 @@ public class EmployeePojo {
 		this.empHashedPassword = empHashedPassword;
 	}
 
-	public RolesPojo getRolesPojo() {
-		return rolesPojo;
+	public RolesPojo getRole() {
+		return role;
 	}
 
-	public void setRolesPojo(RolesPojo rolesPojo) {
-		this.rolesPojo = rolesPojo;
+	public void setRole(RolesPojo role) {
+		this.role = role;
 	}
 
 	public int getEmpId() {
@@ -93,8 +93,8 @@ public class EmployeePojo {
 	@Override
 	public String toString() {
 		return "EmployeePojo [empId=" + empId + ", empFirstName=" + empFirstName + ", empLastName=" + empLastName
-				+ ", empUserName=" + empUserName + ", empHashedPassword=" + empHashedPassword + ", rolesPojo="
-				+ rolesPojo + "]";
+				+ ", empUserName=" + empUserName + ", empHashedPassword=" + empHashedPassword + ", role="
+				+ role + "]";
 	}
 
 }

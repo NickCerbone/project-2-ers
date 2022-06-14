@@ -4,28 +4,28 @@ public class ReimbursementPojo {
 
 	private int reimbId;
 	private double reimbAmt;
-	private StatusPojo statusPojo;
+	private StatusPojo status;
 	private EmployeePojo requester;
 	private EmployeePojo approver;
 
 	public ReimbursementPojo() {
 	}
 
-	public ReimbursementPojo(int reimbId, double reimbAmt, StatusPojo statusPojo, EmployeePojo requester,
+	public ReimbursementPojo(int reimbId, double reimbAmt, StatusPojo status, EmployeePojo requester,
 			EmployeePojo approver) {
 		super();
 		this.reimbId = reimbId;
 		this.reimbAmt = reimbAmt;
-		this.statusPojo = statusPojo;
+		this.status = status;
 		this.requester = requester;
 		this.approver = approver;
 	}
 
-	public ReimbursementPojo(int reimbId, double reimbAmt, StatusPojo statusPojo, EmployeePojo requester) {
+	public ReimbursementPojo(int reimbId, double reimbAmt, StatusPojo status, EmployeePojo requester) {
 		super();
 		this.reimbId = reimbId;
 		this.reimbAmt = reimbAmt;
-		this.statusPojo = statusPojo;
+		this.status = status;
 		this.requester = requester;
 	}
 
@@ -45,12 +45,12 @@ public class ReimbursementPojo {
 		this.reimbAmt = reimbAmt;
 	}
 
-	public StatusPojo getStatusPojo() {
-		return statusPojo;
+	public StatusPojo getStatus() {
+		return status;
 	}
 
-	public void setStatusPojo(StatusPojo statusPojo) {
-		this.statusPojo = statusPojo;
+	public void setStatus(StatusPojo status) {
+		this.status = status;
 	}
 
 	public EmployeePojo getRequester() {
@@ -71,7 +71,7 @@ public class ReimbursementPojo {
 
 	@Override
 	public String toString() {
-		return "ReimbursementPojo [reimbId=" + reimbId + ", reimbAmt=" + reimbAmt + ", statusPojo=" + statusPojo
+		return "ReimbursementPojo [reimbId=" + reimbId + ", reimbAmt=" + reimbAmt + ", status=" + status
 				+ ", requester=" + requester + ", approver=" + approver + "]";
 	}
 

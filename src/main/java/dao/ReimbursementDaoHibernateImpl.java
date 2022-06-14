@@ -23,7 +23,7 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 	public ReimbursementPojo submitRequest(ReimbursementPojo reimbursementPojo) throws ApplicationException {
 
 		StatusEntity statusEnt = new StatusEntity();
-		statusEnt.setStatusId(reimbursementPojo.getStatusPojo().getStatusId());
+		statusEnt.setStatusId(reimbursementPojo.getStatus().getStatusId());
 
 		EmployeeEntity requesterEnt = new EmployeeEntity();
 		requesterEnt.setEmpId(reimbursementPojo.getRequester().getEmpId());
@@ -62,8 +62,8 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 			for (ReimbursementEntity fetchedRequestsByRequesterEntity : allRequestsByRequesterEntity) {
 
 				StatusPojo statusPojo = new StatusPojo();
-				statusPojo.setStatusId(fetchedRequestsByRequesterEntity.getStatusEntity().getStatusId());
-				statusPojo.setStatus(fetchedRequestsByRequesterEntity.getStatusEntity().getStatus());
+				statusPojo.setStatusId(fetchedRequestsByRequesterEntity.getStatus().getStatusId());
+				statusPojo.setStatus(fetchedRequestsByRequesterEntity.getStatus().getStatus());
 
 				EmployeePojo employeePojoRequester = new EmployeePojo();
 				employeePojoRequester.setEmpId(fetchedRequestsByRequesterEntity.getRequester().getEmpId());
@@ -72,10 +72,10 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 				employeePojoRequester.setEmpLastName(fetchedRequestsByRequesterEntity.getRequester().getEmpLastName());
 
 				RolesPojo requesterRole = new RolesPojo();
-				requesterRole.setRoleId(fetchedRequestsByRequesterEntity.getRequester().getRolesEntity().getRoleId());
-				requesterRole.setRole(fetchedRequestsByRequesterEntity.getRequester().getRolesEntity().getRole());
+				requesterRole.setRoleId(fetchedRequestsByRequesterEntity.getRequester().getRole().getRoleId());
+				requesterRole.setRole(fetchedRequestsByRequesterEntity.getRequester().getRole().getRole());
 
-				employeePojoRequester.setRolesPojo(requesterRole);
+				employeePojoRequester.setRole(requesterRole);
 
 				EmployeePojo employeePojoApprover = new EmployeePojo();
 				if (fetchedRequestsByRequesterEntity.getApprover() != null) {
@@ -86,10 +86,10 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 							.setEmpLastName(fetchedRequestsByRequesterEntity.getApprover().getEmpLastName());
 
 					RolesPojo approverRole = new RolesPojo();
-					approverRole.setRoleId(fetchedRequestsByRequesterEntity.getApprover().getRolesEntity().getRoleId());
-					approverRole.setRole(fetchedRequestsByRequesterEntity.getApprover().getRolesEntity().getRole());
+					approverRole.setRoleId(fetchedRequestsByRequesterEntity.getApprover().getRole().getRoleId());
+					approverRole.setRole(fetchedRequestsByRequesterEntity.getApprover().getRole().getRole());
 
-					employeePojoApprover.setRolesPojo(approverRole);
+					employeePojoApprover.setRole(approverRole);
 				}
 
 				ReimbursementPojo returnReimbursementPojo = new ReimbursementPojo(
@@ -121,8 +121,8 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 		for (ReimbursementEntity fetchedPendingRequestsByRequesterEntity : allPendingRequestsByRequesterEntity) {
 
 			StatusPojo statusPojo = new StatusPojo();
-			statusPojo.setStatusId(fetchedPendingRequestsByRequesterEntity.getStatusEntity().getStatusId());
-			statusPojo.setStatus(fetchedPendingRequestsByRequesterEntity.getStatusEntity().getStatus());
+			statusPojo.setStatusId(fetchedPendingRequestsByRequesterEntity.getStatus().getStatusId());
+			statusPojo.setStatus(fetchedPendingRequestsByRequesterEntity.getStatus().getStatus());
 
 			EmployeePojo employeePojoRequester = new EmployeePojo();
 			employeePojoRequester.setEmpId(fetchedPendingRequestsByRequesterEntity.getRequester().getEmpId());
@@ -133,10 +133,10 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 
 			RolesPojo requesterRole = new RolesPojo();
 			requesterRole
-					.setRoleId(fetchedPendingRequestsByRequesterEntity.getRequester().getRolesEntity().getRoleId());
-			requesterRole.setRole(fetchedPendingRequestsByRequesterEntity.getRequester().getRolesEntity().getRole());
+					.setRoleId(fetchedPendingRequestsByRequesterEntity.getRequester().getRole().getRoleId());
+			requesterRole.setRole(fetchedPendingRequestsByRequesterEntity.getRequester().getRole().getRole());
 
-			employeePojoRequester.setRolesPojo(requesterRole);
+			employeePojoRequester.setRole(requesterRole);
 
 			ReimbursementPojo returnReimbursementPojo = new ReimbursementPojo(
 					fetchedPendingRequestsByRequesterEntity.getReimbId(),
@@ -166,8 +166,8 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 			for (ReimbursementEntity fetchedResolvedRequestsByRequesterEntity : allResolvedRequestsByRequesterEntity) {
 
 				StatusPojo statusPojo = new StatusPojo();
-				statusPojo.setStatusId(fetchedResolvedRequestsByRequesterEntity.getStatusEntity().getStatusId());
-				statusPojo.setStatus(fetchedResolvedRequestsByRequesterEntity.getStatusEntity().getStatus());
+				statusPojo.setStatusId(fetchedResolvedRequestsByRequesterEntity.getStatus().getStatusId());
+				statusPojo.setStatus(fetchedResolvedRequestsByRequesterEntity.getStatus().getStatus());
 
 				EmployeePojo employeePojoRequester = new EmployeePojo();
 				employeePojoRequester.setEmpId(fetchedResolvedRequestsByRequesterEntity.getRequester().getEmpId());
@@ -178,11 +178,11 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 
 				RolesPojo requesterRole = new RolesPojo();
 				requesterRole.setRoleId(
-						fetchedResolvedRequestsByRequesterEntity.getRequester().getRolesEntity().getRoleId());
+						fetchedResolvedRequestsByRequesterEntity.getRequester().getRole().getRoleId());
 				requesterRole
-						.setRole(fetchedResolvedRequestsByRequesterEntity.getRequester().getRolesEntity().getRole());
+						.setRole(fetchedResolvedRequestsByRequesterEntity.getRequester().getRole().getRole());
 
-				employeePojoRequester.setRolesPojo(requesterRole);
+				employeePojoRequester.setRole(requesterRole);
 
 				EmployeePojo employeePojoApprover = new EmployeePojo();
 				employeePojoApprover.setEmpId(fetchedResolvedRequestsByRequesterEntity.getApprover().getEmpId());
@@ -193,10 +193,10 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 
 				RolesPojo approverRole = new RolesPojo();
 				approverRole
-						.setRoleId(fetchedResolvedRequestsByRequesterEntity.getApprover().getRolesEntity().getRoleId());
-				approverRole.setRole(fetchedResolvedRequestsByRequesterEntity.getApprover().getRolesEntity().getRole());
+						.setRoleId(fetchedResolvedRequestsByRequesterEntity.getApprover().getRole().getRoleId());
+				approverRole.setRole(fetchedResolvedRequestsByRequesterEntity.getApprover().getRole().getRole());
 
-				employeePojoApprover.setRolesPojo(approverRole);
+				employeePojoApprover.setRole(approverRole);
 
 				ReimbursementPojo returnReimbursementPojo = new ReimbursementPojo(
 						fetchedResolvedRequestsByRequesterEntity.getReimbId(),
@@ -228,8 +228,8 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 			allRequestsPojo = new ArrayList<ReimbursementPojo>();
 			for (ReimbursementEntity fetchedReimbEnt : allRequestsEnt) {
 				StatusPojo status = new StatusPojo();
-				status.setStatusId(fetchedReimbEnt.getStatusEntity().getStatusId());
-				status.setStatus(fetchedReimbEnt.getStatusEntity().getStatus());
+				status.setStatusId(fetchedReimbEnt.getStatus().getStatusId());
+				status.setStatus(fetchedReimbEnt.getStatus().getStatus());
 				EmployeePojo requester = new EmployeePojo();
 				requester.setEmpId(fetchedReimbEnt.getRequester().getEmpId());
 				requester.setEmpFirstName(fetchedReimbEnt.getRequester().getEmpFirstName());
@@ -269,8 +269,8 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 		for (ReimbursementEntity fetchedAllPendingRequestsEntity : allPendingRequestsEntity) {
 
 			StatusPojo statusPojo = new StatusPojo();
-			statusPojo.setStatusId(fetchedAllPendingRequestsEntity.getStatusEntity().getStatusId());
-			statusPojo.setStatus(fetchedAllPendingRequestsEntity.getStatusEntity().getStatus());
+			statusPojo.setStatusId(fetchedAllPendingRequestsEntity.getStatus().getStatusId());
+			statusPojo.setStatus(fetchedAllPendingRequestsEntity.getStatus().getStatus());
 
 			EmployeePojo employeePojoRequester = new EmployeePojo();
 			employeePojoRequester.setEmpId(fetchedAllPendingRequestsEntity.getRequester().getEmpId());
@@ -278,10 +278,10 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 			employeePojoRequester.setEmpLastName(fetchedAllPendingRequestsEntity.getRequester().getEmpLastName());
 
 			RolesPojo requesterRole = new RolesPojo();
-			requesterRole.setRoleId(fetchedAllPendingRequestsEntity.getRequester().getRolesEntity().getRoleId());
-			requesterRole.setRole(fetchedAllPendingRequestsEntity.getRequester().getRolesEntity().getRole());
+			requesterRole.setRoleId(fetchedAllPendingRequestsEntity.getRequester().getRole().getRoleId());
+			requesterRole.setRole(fetchedAllPendingRequestsEntity.getRequester().getRole().getRole());
 
-			employeePojoRequester.setRolesPojo(requesterRole);
+			employeePojoRequester.setRole(requesterRole);
 
 			ReimbursementPojo returnReimbursementPojo = new ReimbursementPojo(
 					fetchedAllPendingRequestsEntity.getReimbId(), fetchedAllPendingRequestsEntity.getReimbAmt(),
@@ -310,8 +310,8 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 		for (ReimbursementEntity fetchedAllResolvedRequestsEntity : allResolvedRequestsEntity) {
 
 			StatusPojo statusPojo = new StatusPojo();
-			statusPojo.setStatusId(fetchedAllResolvedRequestsEntity.getStatusEntity().getStatusId());
-			statusPojo.setStatus(fetchedAllResolvedRequestsEntity.getStatusEntity().getStatus());
+			statusPojo.setStatusId(fetchedAllResolvedRequestsEntity.getStatus().getStatusId());
+			statusPojo.setStatus(fetchedAllResolvedRequestsEntity.getStatus().getStatus());
 
 			EmployeePojo employeePojoRequester = new EmployeePojo();
 			employeePojoRequester.setEmpId(fetchedAllResolvedRequestsEntity.getRequester().getEmpId());
@@ -319,10 +319,10 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 			employeePojoRequester.setEmpLastName(fetchedAllResolvedRequestsEntity.getRequester().getEmpLastName());
 
 			RolesPojo requesterRole = new RolesPojo();
-			requesterRole.setRoleId(fetchedAllResolvedRequestsEntity.getRequester().getRolesEntity().getRoleId());
-			requesterRole.setRole(fetchedAllResolvedRequestsEntity.getRequester().getRolesEntity().getRole());
+			requesterRole.setRoleId(fetchedAllResolvedRequestsEntity.getRequester().getRole().getRoleId());
+			requesterRole.setRole(fetchedAllResolvedRequestsEntity.getRequester().getRole().getRole());
 
-			employeePojoRequester.setRolesPojo(requesterRole);
+			employeePojoRequester.setRole(requesterRole);
 
 			EmployeePojo employeePojoApprover = new EmployeePojo();
 			employeePojoApprover.setEmpId(fetchedAllResolvedRequestsEntity.getApprover().getEmpId());
@@ -330,10 +330,10 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 			employeePojoApprover.setEmpLastName(fetchedAllResolvedRequestsEntity.getApprover().getEmpLastName());
 
 			RolesPojo approverRole = new RolesPojo();
-			approverRole.setRoleId(fetchedAllResolvedRequestsEntity.getApprover().getRolesEntity().getRoleId());
-			approverRole.setRole(fetchedAllResolvedRequestsEntity.getApprover().getRolesEntity().getRole());
+			approverRole.setRoleId(fetchedAllResolvedRequestsEntity.getApprover().getRole().getRoleId());
+			approverRole.setRole(fetchedAllResolvedRequestsEntity.getApprover().getRole().getRole());
 
-			employeePojoApprover.setRolesPojo(approverRole);
+			employeePojoApprover.setRole(approverRole);
 
 			ReimbursementPojo returnReimbursementPojo = new ReimbursementPojo(
 					fetchedAllResolvedRequestsEntity.getReimbId(), fetchedAllResolvedRequestsEntity.getReimbAmt(),
@@ -355,7 +355,7 @@ public class ReimbursementDaoHibernateImpl implements ReimbursementDao {
 
 		Query hql = session.createQuery(
 				"update ReimbursementEntity set reimb_status_id=: decision, approver_id=: approver where reimb_id=: r");
-		hql.setParameter("decision", reimbursementPojo.getStatusPojo().getStatusId());
+		hql.setParameter("decision", reimbursementPojo.getStatus().getStatusId());
 		hql.setParameter("r", reimbursementPojo.getReimbId());
 		hql.setParameter("approver", reimbursementPojo.getApprover().getEmpId());
 		hql.executeUpdate();

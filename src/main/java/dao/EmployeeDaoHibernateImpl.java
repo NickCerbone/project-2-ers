@@ -24,8 +24,8 @@ public class EmployeeDaoHibernateImpl implements EmployeeDao {
 		EmployeeEntity fetchedEmployeeEntity = session.get(EmployeeEntity.class, empId);
 
 		RolesPojo rolePojo = new RolesPojo();
-		rolePojo.setRoleId(fetchedEmployeeEntity.getRolesEntity().getRoleId());
-		rolePojo.setRole(fetchedEmployeeEntity.getRolesEntity().getRole());
+		rolePojo.setRoleId(fetchedEmployeeEntity.getRole().getRoleId());
+		rolePojo.setRole(fetchedEmployeeEntity.getRole().getRole());
 
 		EmployeePojo returnEmployeePojo = new EmployeePojo(fetchedEmployeeEntity.getEmpId(),
 				fetchedEmployeeEntity.getEmpFirstName(), fetchedEmployeeEntity.getEmpLastName(),
@@ -50,8 +50,8 @@ public class EmployeeDaoHibernateImpl implements EmployeeDao {
 			allEmployeesPojo = new ArrayList<EmployeePojo>();
 			for (EmployeeEntity fetchedEmpEnt : allEmployeesEnt) {
 				RolesPojo roles = new RolesPojo();
-				roles.setRoleId(fetchedEmpEnt.getRolesEntity().getRoleId());
-				roles.setRole(fetchedEmpEnt.getRolesEntity().getRole());
+				roles.setRoleId(fetchedEmpEnt.getRole().getRoleId());
+				roles.setRole(fetchedEmpEnt.getRole().getRole());
 
 				EmployeePojo returnEmpPojo = new EmployeePojo(fetchedEmpEnt.getEmpId(), fetchedEmpEnt.getEmpFirstName(),
 						fetchedEmpEnt.getEmpLastName(), fetchedEmpEnt.getEmpUserName(), roles);
@@ -81,8 +81,8 @@ public class EmployeeDaoHibernateImpl implements EmployeeDao {
 			EmployeeEntity fetchedEmpEnt = session.createQuery(hql, EmployeeEntity.class).getSingleResult();
 
 			RolesPojo rolePojo = new RolesPojo();
-			rolePojo.setRoleId(fetchedEmpEnt.getRolesEntity().getRoleId());
-			rolePojo.setRole(fetchedEmpEnt.getRolesEntity().getRole());
+			rolePojo.setRoleId(fetchedEmpEnt.getRole().getRoleId());
+			rolePojo.setRole(fetchedEmpEnt.getRole().getRole());
 
 			returnEmployeePojo = new EmployeePojo(fetchedEmpEnt.getEmpId(), fetchedEmpEnt.getEmpFirstName(),
 					fetchedEmpEnt.getEmpLastName(), employeePojo.getEmpUserName(), employeePojo.getEmpHashedPassword(),

@@ -23,7 +23,7 @@ public class ReimbursementEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "reimb_status_id")
-	private StatusEntity statusEntity;
+	private StatusEntity status;
 
 	@ManyToOne
 	@JoinColumn(name = "requester_id")
@@ -36,27 +36,27 @@ public class ReimbursementEntity {
 	public ReimbursementEntity() {
 	}
 
-	public ReimbursementEntity(int reimbId, double reimbAmt, StatusEntity statusEntity, EmployeeEntity requester,
+	public ReimbursementEntity(int reimbId, double reimbAmt, StatusEntity status, EmployeeEntity requester,
 			EmployeeEntity approver) {
 		super();
 		this.reimbId = reimbId;
 		this.reimbAmt = reimbAmt;
-		this.statusEntity = statusEntity;
+		this.status = status;
 		this.requester = requester;
 		this.approver = approver;
 	}
 
-	public ReimbursementEntity(int reimbId, StatusEntity statusEntity, EmployeeEntity approver) {
+	public ReimbursementEntity(int reimbId, StatusEntity status, EmployeeEntity approver) {
 		super();
 		this.reimbId = reimbId;
-		this.statusEntity = statusEntity;
+		this.status = status;
 		this.approver = approver;
 	}
 
-	public ReimbursementEntity(double reimbAmt, StatusEntity statusEntity, EmployeeEntity requester) {
+	public ReimbursementEntity(double reimbAmt, StatusEntity status, EmployeeEntity requester) {
 		super();
 		this.reimbAmt = reimbAmt;
-		this.statusEntity = statusEntity;
+		this.status = status;
 		this.requester = requester;
 	}
 
@@ -76,12 +76,12 @@ public class ReimbursementEntity {
 		this.reimbAmt = reimbAmt;
 	}
 
-	public StatusEntity getStatusEntity() {
-		return statusEntity;
+	public StatusEntity getStatus() {
+		return status;
 	}
 
-	public void setStatusEntity(StatusEntity statusEntity) {
-		this.statusEntity = statusEntity;
+	public void setStatus(StatusEntity status) {
+		this.status = status;
 	}
 
 	public EmployeeEntity getRequester() {
@@ -102,7 +102,7 @@ public class ReimbursementEntity {
 
 	@Override
 	public String toString() {
-		return "ReimbursementEntity [reimbId=" + reimbId + ", reimbAmt=" + reimbAmt + ", statusEntity=" + statusEntity
+		return "ReimbursementEntity [reimbId=" + reimbId + ", reimbAmt=" + reimbAmt + ", status=" + status
 				+ ", requester=" + requester + ", approver=" + approver + "]";
 	}
 
