@@ -25,7 +25,7 @@ public class ReimbCrud {
 		});
 
 		// endpoint submit a request - NICK
-		server.post("/reimbursement/", (ctx) -> {
+		server.post("/reimbursement", (ctx) -> {
 			ReimbursementPojo newReimbursementPojo = ctx.bodyAsClass(ReimbursementPojo.class);
 			ReimbursementPojo returnReimbursementPojo = reimbService.submitRequest(newReimbursementPojo);
 			ctx.json(returnReimbursementPojo);
@@ -47,7 +47,7 @@ public class ReimbCrud {
 		});
 
 		// endpoint employee "view my account" NAVDEEP
-		server.get("/employees/{empid}/", (ctx) -> {
+		server.get("/employees/{empid}", (ctx) -> {
 			EmployeePojo returnedEmployee = employeeService.empViewInfo(Integer.parseInt(ctx.pathParam("empid")));
 			ctx.json(returnedEmployee);
 		});
@@ -98,6 +98,7 @@ public class ReimbCrud {
 			ReimbursementPojo returnReimbursementPojo = reimbService.manUpdateRequest(newReimbursementPojo);
 			ctx.json(returnReimbursementPojo);
 		});
+	
 	}
 
 }

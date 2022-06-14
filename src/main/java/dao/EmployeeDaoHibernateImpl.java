@@ -7,6 +7,7 @@ import javax.persistence.Query;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.mindrot.jbcrypt.BCrypt;
 
 import entity.EmployeeEntity;
 import exceptions.ApplicationException;
@@ -14,7 +15,25 @@ import pojo.EmployeePojo;
 import pojo.RolesPojo;
 
 public class EmployeeDaoHibernateImpl implements EmployeeDao {
+	// hashes the users password
+	public String hashPassword(String password) {
+		// takes your password and returns an encrypted version of it
+		String hashedPass = BCrypt.hashpw(password, BCrypt.gensalt(10));
 
+		return hashedPass;
+	}
+
+	// checks the users password
+	public boolean checkPass(String password, String hashedPass) {
+		// takes your password and an encrypted password and compares it to see if its
+		// the same values
+		// as the password, if so it returns true
+		if (BCrypt.checkpw(password, hashedPass)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	@Override
 	public EmployeePojo empViewInfo(int empId) throws ApplicationException {
 
