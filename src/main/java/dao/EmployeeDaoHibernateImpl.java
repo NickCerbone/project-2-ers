@@ -16,6 +16,7 @@ import pojo.RolesPojo;
 
 public class EmployeeDaoHibernateImpl implements EmployeeDao {
 	// hashes the users password
+	@Override
 	public String hashPassword(String password) {
 		// takes your password and returns an encrypted version of it
 		String hashedPass = BCrypt.hashpw(password, BCrypt.gensalt(10));
@@ -24,6 +25,7 @@ public class EmployeeDaoHibernateImpl implements EmployeeDao {
 	}
 
 	// checks the users password
+	@Override
 	public boolean checkPass(String password, String hashedPass) {
 		// takes your password and an encrypted password and compares it to see if its
 		// the same values
@@ -94,8 +96,7 @@ public class EmployeeDaoHibernateImpl implements EmployeeDao {
 			SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 			Session session = sessionFactory.openSession();
 
-			String hql = "from EmployeeEntity where user_name='" + employeePojo.getEmpUserName()
-					+ "'and hashed_password='" + employeePojo.getEmpHashedPassword() + "'";
+			String hql = "from EmployeeEntity where user_name='" + employeePojo.getEmpUserName() +"'";
 
 			EmployeeEntity fetchedEmpEnt = session.createQuery(hql, EmployeeEntity.class).getSingleResult();
 
@@ -104,9 +105,9 @@ public class EmployeeDaoHibernateImpl implements EmployeeDao {
 			rolePojo.setRole(fetchedEmpEnt.getRolesEntity().getRole());
 
 			returnEmployeePojo = new EmployeePojo(fetchedEmpEnt.getEmpId(), fetchedEmpEnt.getEmpFirstName(),
-					fetchedEmpEnt.getEmpLastName(), employeePojo.getEmpUserName(), employeePojo.getEmpHashedPassword(),
+					fetchedEmpEnt.getEmpLastName(), employeePojo.getEmpUserName(), fetchedEmpEnt.getEmpHashedPassword(),
 					rolePojo);
-
+			System.out.println(returnEmployeePojo);
 			session.close();
 		} catch (Exception e) {
 			e.printStackTrace();

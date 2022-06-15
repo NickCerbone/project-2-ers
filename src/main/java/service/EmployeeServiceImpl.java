@@ -37,7 +37,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public EmployeePojo getEmployee(EmployeePojo employeePojo) throws ApplicationException {
 		EmployeePojo returnEmployeePojo = this.employeeDao.getEmployee(employeePojo);
-		return returnEmployeePojo;
+		Boolean checkedPass = employeeDao.checkPass(employeePojo.getEmpHashedPassword(),returnEmployeePojo.getEmpHashedPassword());
+		if (checkedPass ==true) {
+			return returnEmployeePojo;
+		}else {
+			throw new ApplicationException("Invalid password");
+		}
+		
 	}
 
 }

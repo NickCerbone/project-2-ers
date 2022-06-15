@@ -1,5 +1,6 @@
 import java.util.List;
 
+import dao.EmployeeDaoHibernateImpl;
 import io.javalin.Javalin;
 import pojo.EmployeePojo;
 import pojo.ReimbursementPojo;
@@ -14,7 +15,7 @@ public class ReimbCrud {
 
 		ReimbService reimbService = new ReimbServiceImpl();
 		EmployeeService employeeService = new EmployeeServiceImpl();
-
+		EmployeeDaoHibernateImpl employeeDaoHibernateImpl = new EmployeeDaoHibernateImpl();
 		Javalin server = Javalin.create((config) -> config.enableCorsForAllOrigins());
 		server.start(7474);
 
@@ -50,6 +51,11 @@ public class ReimbCrud {
 		server.get("/employees/{empid}", (ctx) -> {
 			EmployeePojo returnedEmployee = employeeService.empViewInfo(Integer.parseInt(ctx.pathParam("empid")));
 			ctx.json(returnedEmployee);
+		});
+		//returns hashed password
+		server.get("/employees/hashPass/{hash}", (ctx) -> {
+			String pass = employeeDaoHibernateImpl.hashPassword(ctx.pathParam("hash"));
+			ctx.json(pass);
 		});
 
 		// endpoint update accnt info - NAVDEEP

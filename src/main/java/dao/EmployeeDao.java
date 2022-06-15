@@ -6,7 +6,10 @@ import exceptions.ApplicationException;
 import pojo.EmployeePojo;
 
 public interface EmployeeDao {
-
+	//hashes password
+	public String hashPassword(String password);
+	//checks password
+	public boolean checkPass(String password, String hashedPass);
 	//Method for employee to view their information
 	EmployeePojo empViewInfo(int empId) throws ApplicationException;
 	
